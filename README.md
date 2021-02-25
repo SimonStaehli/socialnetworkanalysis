@@ -7,3 +7,6 @@ This is a project of the module SAN of the University of Applied Science with th
 - Collect Social Network Data from a website
 - Create a Pipeline for Continous Datacleaning, Transformation and Integration 
 - Perform a Social Network Analysis by using the collected data
+
+
+Test
