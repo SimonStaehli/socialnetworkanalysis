@@ -46,6 +46,8 @@ class TwitterFollowersNetwork:
         """
         if type(self.start_follower) != list:
             followers_list = [self.start_follower]
+        else:
+            followers_list = self.start_follower.copy()
 
         for depth in range(self.net_depth):
             new_followers_list = []
@@ -97,7 +99,7 @@ class TwitterFollowersNetwork:
 
         :return: Json saved to working dir
         """
-        with open(f'Twitter_Data_{self.start_follower}', 'w') as json_file:
+        with open(f'Twitter_Data_{self.start_follower}_depth{self.net_depth}', 'w') as json_file:
             json.dump(self.follower_results, json_file)
 
 
