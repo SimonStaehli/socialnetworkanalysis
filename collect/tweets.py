@@ -122,7 +122,7 @@ class HashForATweet:
                 },
                 ignore_index=True
             )
-        df.to_csv(path_or_buf=f'../data/{self.search_key.replace(" ", "_")}_tweet_{str(dt.datetime.today().date())}')
+        df.to_csv(path_or_buf=f'../data/TW_{self.search_key.replace(" ", "_")}_{str(dt.datetime.today().date())}')
 
     def write_retweets_csv(self):
         """
@@ -161,7 +161,7 @@ class HashForATweet:
                     ignore_index=True
                 )
 
-        df.to_csv(path_or_buf=f'../data/{self.search_key.replace(" ", "_")}_retweets_{str(dt.datetime.today().date())}')
+        df.to_csv(path_or_buf=f'../data/RT_{self.search_key.replace(" ", "_")}_{str(dt.datetime.today().date())}')
 
 
 if __name__ == '__main__':
@@ -177,18 +177,18 @@ if __name__ == '__main__':
     hash_for_tweet = HashForATweet(authentication=auth,
                                    search_key=input('Type in Search Key: '),
                                    amount_tweets=int(input("Type in amount of Tweets: ")),
-                                   upper_retweet_limit=int(input("Type upper limit of Retweets : ")),
-                                   lower_retweet_limit=int(input("Type lower limit of Retweets : ")),
+                                   upper_retweet_limit=int(input("Type upper limit of Retweets for one Tweet: ")),
+                                   lower_retweet_limit=int(input("Type lower limit of Retweets for one Tweet: ")),
                                    search_results=input('Search Criterion (mix/popular/recent): '),
                                    language='en')
 
     hash_for_tweet.collect_tweets()
     print(f'{len(hash_for_tweet.tweets)} Tweets collected...')
+    hash_for_tweet.write_tweets_csv()
+    print('CSV-File for Tweets was written.')
 
     hash_for_tweet.collect_retweets()
     print(
         f'{sum([len(hash_for_tweet.retweets[key]) for key in hash_for_tweet.retweets.keys()])} Retweets collected....')
-    hash_for_tweet.write_tweets_csv()
-    print('CSV-File for Tweets was written.')
     hash_for_tweet.write_retweets_csv()
     print('CSV-File for Retweets was written.')
