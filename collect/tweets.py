@@ -119,7 +119,7 @@ class HashForATweet:
             )
         df.to_csv(path_or_buf=f'../data/{self.search_key.replace(" ", "_")}_tweet_{str(dt.datetime.today().date())}')
 
-    def write_retweets_csv(self, path):
+    def write_retweets_csv(self):
         """
         Writes Twitter Tweets Data to a csv-file.
 
