@@ -11,7 +11,8 @@ class HashForATweet:
 
     def __init__(self, authentication,
                  search_key, amount_tweets,
-                 retweet_limit, search_results='mix', language='en'):
+                 upper_retweet_limit, lower_retweet_limit,
+                 search_results='mix', language='en'):
         """
         :param authentication:
         Authentication Object of TwitterAPI
@@ -47,7 +48,8 @@ class HashForATweet:
         self.search_key = search_key
         self.language = language
         self.amount_tweets = amount_tweets
-        self.retweet_limit = retweet_limit
+        self.upper_retweet_limit = upper_retweet_limit
+        self.lower_retweet_limit = lower_retweet_limit
         self.search_results = search_results
         self.tweets = []
         self.retweets = {}
@@ -74,11 +76,14 @@ class HashForATweet:
         """
         if len(self.tweets) > 0:
             for tweet in self.tweets:
-                if tweet['retweet_count'] <= self.retweet_limit:
-                    tweet_id = tweet['id']
-                    self.retweets[tweet_id] = []
-                    for retweet in self.api.retweets(tweet_id):
-                        self.retweets[tweet_id].append(retweet._json)
+                if (tweet['retweet_count'] <= self.upper_retweet_limit) and (tweet['retweet_count'] >= self.lower_retweet_limit):
+                    try:
+                        tweet_id = tweet['id']
+                        self.retweets[tweet_id] = []
+                        for retweet in self.api.retweets(tweet_id):
+                            self.retweets[tweet_id].append(retweet._json)
+                    except Exception as e:
+                        print('This tweet is probably no longer available. Skipping..', e)
                 else:
                     pass
         else:
@@ -172,7 +177,8 @@ if __name__ == '__main__':
     hash_for_tweet = HashForATweet(authentication=auth,
                                    search_key=input('Type in Search Key: '),
                                    amount_tweets=int(input("Type in amount of Tweets: ")),
-                                   retweet_limit=int(input("Type limit of Retweets : ")),
+                                   upper_retweet_limit=int(input("Type upper limit of Retweets : ")),
+                                   lower_retweet_limit=int(input("Type lower limit of Retweets : ")),
                                    search_results=input('Search Criterion (mix/popular/recent): '),
                                    language='en')
 
@@ -183,4 +189,6 @@ if __name__ == '__main__':
     print(
         f'{sum([len(hash_for_tweet.retweets[key]) for key in hash_for_tweet.retweets.keys()])} Retweets collected....')
     hash_for_tweet.write_tweets_csv()
+    print('CSV-File for Tweets was written.')
     hash_for_tweet.write_retweets_csv()
+    print('CSV-File for Retweets was written.')
