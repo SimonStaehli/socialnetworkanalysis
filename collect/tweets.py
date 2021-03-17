@@ -110,6 +110,7 @@ class HashForATweet:
         for tweet in self.tweets:
             df = df.append(
                 {
+                    'search_key': self.search_key,
                     'tweet_id': tweet['id'], 'creation_date': tweet['created_at'],
                     'full_text': tweet['full_text'],
                     'mentions': [', '.join([user['screen_name']]) for user in tweet['entities']['user_mentions']],
@@ -145,6 +146,7 @@ class HashForATweet:
             for tweet in self.retweets[key]:
                 df = df.append(
                     {
+                        'search_key': self.search_key,
                         'tweet_id': tweet['id'], 'creation_date': tweet['created_at'],
                         'full_text': tweet['text'],
                         'mentions': [', '.join([user['screen_name']]) for user in tweet['entities']['user_mentions']],
