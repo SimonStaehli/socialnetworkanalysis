@@ -23,8 +23,11 @@ class HashForATweet:
         :param amount_tweets:
         Amount of Tweets to be extracted from Twitter
 
-        :param retweet_limit:
-        A limit of how much Retweets for a Tweet to be collected
+        :param upper_retweet_limit:
+        A limit of how much Retweets for a Tweet to be collected.
+
+        :param lower_retweet_limit:
+        A limit of how much Retweets a Tweet needs to be collected.
 
         :param search_results:
         Refering to Twitter options for the Tweets: popular / mix / recent
@@ -101,7 +104,7 @@ class HashForATweet:
                 'tweet_id', 'creation_date', 'full_text', 'mentions', 'entities_hashtags',
                 'user_name', 'user_screen_name', 'user_id', 'location', 'description',
                 'protected', 'followers_count', 'friends_count', 'profile_created_at',
-                'favourites_count', 'statuses_count', 'retweet_count', 'favourite_count'
+                'retweet_count', 'favourite_count'
             ]
         )
         for tweet in self.tweets:
@@ -115,8 +118,6 @@ class HashForATweet:
                     'location': tweet['user']['location'], 'description': tweet['user']['description'],
                     'protected': tweet['user']['protected'], 'followers_count': tweet['user']['followers_count'],
                     'friends_count': tweet['user']['friends_count'], 'profile_created_at': tweet['user']['created_at'],
-                    'favourites_count': tweet['user']['favourites_count'],
-                    'statuses_count': tweet['user']['statuses_count'],
                     'retweet_count': tweet["retweet_count"], 'favourite_count': tweet["favorite_count"]
 
                 },
@@ -136,7 +137,7 @@ class HashForATweet:
                 'tweet_id', 'creation_date', 'full_text', 'mentions', 'entities_hashtags',
                 'user_name', 'user_screen_name', 'user_id', 'location', 'description',
                 'protected', 'followers_count', 'friends_count', 'profile_created_at',
-                'favourites_count', 'statuses_count', 'retweet_count', 'favourite_count',
+                'retweet_count', 'favourite_count',
                 "RT_of_ID"
             ]
         )
@@ -153,8 +154,6 @@ class HashForATweet:
                         'protected': tweet['user']['protected'], 'followers_count': tweet['user']['followers_count'],
                         'friends_count': tweet['user']['friends_count'],
                         'profile_created_at': tweet['user']['created_at'],
-                        'favourites_count': tweet['user']['favourites_count'],
-                        'statuses_count': tweet['user']['statuses_count'],
                         'retweet_count': tweet["retweet_count"], 'favourite_count': tweet["favorite_count"],
                         "RT_of_ID": tweet["retweeted_status"]["id"],
                     },
