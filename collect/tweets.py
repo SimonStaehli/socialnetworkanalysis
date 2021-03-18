@@ -124,7 +124,7 @@ class HashForATweet:
                 },
                 ignore_index=True
             )
-        df.to_csv(path_or_buf=f'../data/TW_{self.search_key.replace(" ", "_")}_{str(dt.datetime.today().date())}')
+        df.to_csv(path_or_buf=f'../data/TW_{self.search_key.replace(" ", "_")}_{str(dt.datetime.today().date())}.csv')
 
     def write_retweets_csv(self):
         """
@@ -162,7 +162,7 @@ class HashForATweet:
                     ignore_index=True
                 )
 
-        df.to_csv(path_or_buf=f'../data/RT_{self.search_key.replace(" ", "_")}_{str(dt.datetime.today().date())}')
+        df.to_csv(path_or_buf=f'../data/RT_{self.search_key.replace(" ", "_")}_{str(dt.datetime.today().date())}.csv')
 
 
 if __name__ == '__main__':
