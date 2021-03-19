@@ -1,14 +1,21 @@
 import os
 import glob
-import pandas
+import pandas as pd
 
-def concatenate_rt(indir = "C:\\socialnetworkanalysis\\data", outfile = "C:\\socialnetworkanalysis\\transform\\rt_concatenated.csv"):
-    os.chdir(indir)
-    filelist = glob.glob("RT_*_2021-03-*.csv")
-    dflist = []
-    for filename in filelist:
-        print(filename)
-        df = pandas.read_csv(filename, header=True)
-        dflist.append(df)
-    concatdf = pandas.concat(dflist, axis=0)
-    concatdf.to_csv(outfile, index=None)
+def rt_concatenate():
+    os.chdir('../data')
+    file_list = glob.glob("RT_*.csv")
+    df_from_each_file = (pd.read_csv(file, sep=',', header=0) for file in file_list)
+    df_merged = pd.concat(df_from_each_file, ignore_index=True, sort=False)
+    df_merged.to_csv("Merged_RT.csv")
+
+def tw_concatenate():
+    os.chdir('../data')
+    file_list = glob.glob("TW_*.csv")
+    df_from_each_file = (pd.read_csv(file, sep=',', header=0) for file in file_list)
+    df_merged = pd.concat(df_from_each_file, ignore_index=True, sort=False)
+    df_merged.to_csv("Merged_TW.csv")
+
+if __name__ == '__main__':
+    rt_concatenate()
+    tw_concatenate()
