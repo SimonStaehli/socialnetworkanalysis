@@ -2,12 +2,14 @@ import pandas as pd
 import numpy as np
 
 
-def transform(df):
+def transform(df, hashtags_as_list=False, mentions_as_list=False):
     """
     (pd.DataFrame) --> pd.DataFrame
 
     Transforms the Tweets Data.
 
+    @param mentions_as_list: True if mentions should be a list in resulting dataframe else string
+    @param hashtags_as_list: True if hashtags should be a list in resulting dataframe else string
     @param df: pd.DataFrame(), which shall be transformed
     @return: pd.DataFrame()
 
@@ -26,21 +28,31 @@ def transform(df):
 
     # Change the format of column mentions to a list
     df['mentions'] = np.where(df['mentions'] == '[]', np.nan, df['mentions'])
-    df['mentions'] = df['mentions'].str.strip('[]').str.split(',')
+    if mentions_as_list:
+        df['mentions'] = df['mentions'].str.strip('[]').str.split(', ')
+    else:
+        df['mentions'] = df['mentions'].str.strip('[]')
 
     # Change the column hashtags to nan when empty else to a list
     df['entities_hashtags'] = np.where(df['entities_hashtags'] == '[]', np.nan, df['entities_hashtags'])
-    df['entities_hashtags'] = df['entities_hashtags'].str.findall(pat=r"'(\w+)'")
+    if hashtags_as_list:
+        df['entities_hashtags'] = df['entities_hashtags'].str.findall(pat=r"'(\w+)'")
+    else:
+        df['entities_hashtags'] = df['entities_hashtags'].str.strip('[]')
+        df['entities_hashtags'] = df['entities_hashtags'].str.replace("'", "")
 
     return df
 
 
-def read_transform(path_tweets, path_retweets, join_method='concat'):
+def read_transform(path_tweets, path_retweets, join_method='concat',
+                   hashtags_as_list=False, mentions_as_list=False):
     """
     (str) --> pd.DataFrame()
 
     This function reads data from the two dataframes tweet and retweets.
 
+    @param mentions_as_list: True if mentions should be a list in resulting dataframe else string
+    @param hashtags_as_list: True if hashtags should be a list in resulting dataframe else string
     @param path_tweets: specify path of tweets csv file to read
     @param path_retweets: specify path of retweets csv to read
     @param join_method: 'concat' or 'join'
@@ -53,8 +65,8 @@ def read_transform(path_tweets, path_retweets, join_method='concat'):
     tweets = pd.read_csv(path_tweets)
     retweets = pd.read_csv(path_retweets)
 
-    tweets = transform(df=tweets)
-    retweets = transform(df=retweets)
+    tweets = transform(df=tweets, hashtags_as_list=hashtags_as_list, mentions_as_list=mentions_as_list)
+    retweets = transform(df=retweets, hashtags_as_list=hashtags_as_list, mentions_as_list=mentions_as_list)
 
     if join_method == 'concat':
         data = pd.concat([tweets, retweets],
