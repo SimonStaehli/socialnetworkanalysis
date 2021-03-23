@@ -65,5 +65,7 @@ def read_transform(path_tweets, path_retweets, join_method='concat'):
                         left_on='tweet_id', right_on='RT_of_ID',
                         how='left'
                         )
-
+    else:
+        data = (tweets, retweets)
+        
     return data
