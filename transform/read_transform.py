@@ -10,6 +10,8 @@ def transform(df, hashtags_as_list=False, mentions_as_list=False):
 
     @param mentions_as_list: True if mentions should be a list in resulting dataframe else string
     @param hashtags_as_list: True if hashtags should be a list in resulting dataframe else string
+    Attention: If this boolean parameters mentions_as_list and hashtags_as_list are set as true,
+
     @param df: pd.DataFrame(), which shall be transformed
     @return: pd.DataFrame()
 
@@ -17,6 +19,9 @@ def transform(df, hashtags_as_list=False, mentions_as_list=False):
     # Drop Unnamed columns
     drop_cols = [col for col in df.columns if 'Unnamed' in col]
     df = df.drop(drop_cols, axis=1)
+
+    # Drop duplicate Rows
+    df = df.drop_duplicates(subset=['tweet_id', 'creation_date', 'user_id'])
 
     # Set pd datetime of date
     df['creation_date'] = pd.to_datetime(df['creation_date'])
