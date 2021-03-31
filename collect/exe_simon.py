@@ -2,13 +2,15 @@ from tweets import HashForATweet
 import yaml
 import tweepy
 import sys
+import json
 
-search_words = '#vegan #plantbased #veganfood #vegetarian #healthyfood #crueltyfree #food #organic #glutenfree #healthy #veganlife #healthylifestyle #govegan #foodie #foodporn #vegansofig #veganrecipes #love #veganism #instafood #vegano #natural #whatveganseat #fitness #veganfoodshare #health #yummy #dairyfree #homemade #bhfyp'
-search_words = search_words.split(sep='#')
-search_words = [word.strip() for word in search_words][1:]
+with open('hashtags.json', 'r') as json_file:
+    json_file = json.load(json_file)
+
+search_words = json_file['Simon']
 
 def printProgressBar(i,max,postText):
-    n_bar =10 #size of progress bar
+    n_bar =30 #size of progress bar
     j= i/max
     sys.stdout.write('\r')
     sys.stdout.write(f"[{'=' * int(n_bar * j):{n_bar}s}] {int(100 * j)}%  {postText} ")
@@ -34,7 +36,7 @@ if __name__ == '__main__':
         hashfortweet = HashForATweet(
             authentication=auth,
             search_key=word,
-            amount_tweets=250,
+            amount_tweets=1000,
             upper_retweet_limit=500,
             lower_retweet_limit=1,
             search_results='mix',
