@@ -4,6 +4,7 @@ import yaml
 import pandas as pd
 import datetime as dt
 
+
 class HashForATweet:
     """
     This Class is meant to be for the collection of Twitter Tweets and Retweets for a provided search key.
@@ -77,9 +78,10 @@ class HashForATweet:
 
         :return: A Dictionary of Retweets for a certain Tweet_id
         """
-        if len(self.tweets) > 0:
+        if len(self.tweets) > 0 and self.upper_retweet_limit > 0:
             for tweet in self.tweets:
-                if (tweet['retweet_count'] <= self.upper_retweet_limit) and (tweet['retweet_count'] >= self.lower_retweet_limit):
+                if (tweet['retweet_count'] <= self.upper_retweet_limit) and (
+                        tweet['retweet_count'] >= self.lower_retweet_limit):
                     try:
                         tweet_id = tweet['id']
                         self.retweets[tweet_id] = []
@@ -134,37 +136,42 @@ class HashForATweet:
         :return: Written CSV to working dir
         """
         # Create Empty Dataframe
-        df = pd.DataFrame(
-            columns=[
-                'tweet_id', 'creation_date', 'full_text', 'mentions', 'entities_hashtags',
-                'user_name', 'user_screen_name', 'user_id', 'location', 'description',
-                'protected', 'followers_count', 'friends_count', 'profile_created_at',
-                'retweet_count', 'favourite_count',
-                "RT_of_ID"
-            ]
-        )
-        for key in self.retweets.keys():
-            for tweet in self.retweets[key]:
-                df = df.append(
-                    {
-                        'search_key': self.search_key,
-                        'tweet_id': tweet['id'], 'creation_date': tweet['created_at'],
-                        'full_text': tweet['text'],
-                        'mentions': [user['screen_name'] for user in tweet['entities']['user_mentions']],
-                        'entities_hashtags': [hashtag['text'] for hashtag in tweet['entities']['hashtags']],
-                        'user_id': tweet['user']['id'],
-                        'user_name': tweet['user']['name'], 'user_screen_name': tweet['user']['screen_name'],
-                        'location': tweet['user']['location'], 'description': tweet['user']['description'],
-                        'protected': tweet['user']['protected'], 'followers_count': tweet['user']['followers_count'],
-                        'friends_count': tweet['user']['friends_count'],
-                        'profile_created_at': tweet['user']['created_at'],
-                        'retweet_count': tweet["retweet_count"], 'favourite_count': tweet["favorite_count"],
-                        "RT_of_ID": tweet["retweeted_status"]["id"],
-                    },
-                    ignore_index=True
-                )
+        if len(self.retweets) > 0:  # Check if any retweets available
+            df = pd.DataFrame(
+                columns=[
+                    'tweet_id', 'creation_date', 'full_text', 'mentions', 'entities_hashtags',
+                    'user_name', 'user_screen_name', 'user_id', 'location', 'description',
+                    'protected', 'followers_count', 'friends_count', 'profile_created_at',
+                    'retweet_count', 'favourite_count',
+                    "RT_of_ID"
+                ]
+            )
+            for key in self.retweets.keys():
+                for tweet in self.retweets[key]:
+                    df = df.append(
+                        {
+                            'search_key': self.search_key,
+                            'tweet_id': tweet['id'], 'creation_date': tweet['created_at'],
+                            'full_text': tweet['text'],
+                            'mentions': [user['screen_name'] for user in tweet['entities']['user_mentions']],
+                            'entities_hashtags': [hashtag['text'] for hashtag in tweet['entities']['hashtags']],
+                            'user_id': tweet['user']['id'],
+                            'user_name': tweet['user']['name'], 'user_screen_name': tweet['user']['screen_name'],
+                            'location': tweet['user']['location'], 'description': tweet['user']['description'],
+                            'protected': tweet['user']['protected'],
+                            'followers_count': tweet['user']['followers_count'],
+                            'friends_count': tweet['user']['friends_count'],
+                            'profile_created_at': tweet['user']['created_at'],
+                            'retweet_count': tweet["retweet_count"], 'favourite_count': tweet["favorite_count"],
+                            "RT_of_ID": tweet["retweeted_status"]["id"],
+                        },
+                        ignore_index=True
+                    )
 
-        df.to_csv(path_or_buf=f'../data/RT_{self.search_key.replace(" ", "_")}_{str(dt.datetime.today().date())}.csv')
+            df.to_csv(
+                path_or_buf=f'../data/RT_{self.search_key.replace(" ", "_")}_{str(dt.datetime.today().date())}.csv')
+        else:
+            raise Exception('No Retweets to write as CSV.')
 
 
 if __name__ == '__main__':
