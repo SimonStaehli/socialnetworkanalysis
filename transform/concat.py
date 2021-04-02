@@ -66,8 +66,8 @@ if __name__ == '__main__':
     print('File paths in data folder collected.')
     time.sleep(1)
     
-    #concatenate_csv(df_paths=tweet_names, path_2_write='../data/TW.csv')
-    #concatenate_csv(df_paths=retweet_names, path_2_write='../data/RT.csv')
+    concatenate_csv(df_paths=tweet_names, path_2_write='../data/TW.csv')
+    concatenate_csv(df_paths=retweet_names, path_2_write='../data/RT.csv')
     print('Dataframes have been concatenated.')
     time.sleep(1)
 
