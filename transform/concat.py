@@ -51,13 +51,13 @@ def archive_csv_objects(file_names):
 
     for file in file_names:
         if file not in ['RT.csv', 'TW.csv'] and '.csv' in file:
-            if file in archived_files:
-                rename_path = './archived/' + file + '_1'
-            else:
+            print(file in archived_files)
+            try:
                 rename_path = './archived/' + file
-
-            os.rename(file, rename_path)
-
+                os.rename(file, rename_path)
+            except:
+                rename_path = './archived/' + file.split('.')[0] + '_1.' + file.split('.')[-1]
+                os.rename(file, rename_path)
 
 
 if __name__ == '__main__':
@@ -66,8 +66,8 @@ if __name__ == '__main__':
     print('File paths in data folder collected.')
     time.sleep(1)
     
-    concatenate_csv(df_paths=tweet_names, path_2_write='../data/TW.csv')
-    concatenate_csv(df_paths=retweet_names, path_2_write='../data/RT.csv')
+    #concatenate_csv(df_paths=tweet_names, path_2_write='../data/TW.csv')
+    #concatenate_csv(df_paths=retweet_names, path_2_write='../data/RT.csv')
     print('Dataframes have been concatenated.')
     time.sleep(1)
 
