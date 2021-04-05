@@ -51,13 +51,12 @@ def archive_csv_objects(file_names):
 
     for file in file_names:
         if file not in ['RT.csv', 'TW.csv'] and '.csv' in file:
-            if file in archived_files:
-                rename_path = './archived/' + file + '_1'
-            else:
+            try:
                 rename_path = './archived/' + file
-
-            os.rename(file, rename_path)
-
+                os.rename(file, rename_path)
+            except:
+                rename_path = './archived/' + file.split('.')[0] + '_1.' + file.split('.')[-1]
+                os.rename(file, rename_path)
 
 
 if __name__ == '__main__':
@@ -75,3 +74,5 @@ if __name__ == '__main__':
     archive_csv_objects(file_names=retweet_names)
     print('CSV-Files archived.')
     time.sleep(1)
+    print('Process finished.')
+    time.sleep(2)
