@@ -52,7 +52,7 @@ def transform(df, hashtags_as_list=False, mentions_as_list=False):
 def read_transform(path_tweets, path_retweets, join_method='concat',
                    hashtags_as_list=False, mentions_as_list=False):
     """
-    (str) --> pd.DataFrame()
+    (str, str) --> pd.DataFrame()
 
     This function reads data from the two dataframes tweet and retweets.
 
