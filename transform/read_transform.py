@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
-import time
-import os
 
 
 def transform(df, hashtags_as_list=False, mentions_as_list=False):
@@ -88,15 +86,3 @@ def read_transform(path_tweets, path_retweets, join_method='concat',
         data = (tweets, retweets)
 
     return data
-
-
-if __name__ == '__main__':
-    df = read_transform(path_tweets='../data/TW.csv', path_retweets='../data/RT.csv' )
-    df.to_csv('../data/tweets.csv')
-    print(f'{time.ctime()} ---- Transformation of data folder Done.')
-    
-    time.sleep(2)
-    
-    os.system('../integrate/gdriveupload.py')
-    
-    
