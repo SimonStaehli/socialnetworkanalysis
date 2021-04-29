@@ -15,10 +15,10 @@ folder ID changed to one in your personal GoogleDrive Account. Afterwards you ca
 
 1. Type in your preferred search key for Twitter in the "executable.py"
 2. Save your Twitter-API Credentials in the same folder of the "executable.py" with following structure:
-![image info](./img/creds_yaml_structure.PNG =250x)
+![image info](./img/creds_yaml_structure.PNG=250x)
 
 3. Save your GoogleDrive API Credentials to the folder "integrate" (not necessary if local storage is preferred):
-![image info](./img/json_google_drive.PNG =250x)
+![image info](./img/json_google_drive.PNG=250x)
 
 4. Run the "executable.py" python script.
 5. Collection of Tweets starts.
