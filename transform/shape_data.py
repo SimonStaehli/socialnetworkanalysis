@@ -56,7 +56,7 @@ if __name__ == '__main__':
     iteration = 1
     for key, val in mentions.items():
         sys.stdout.flush()
-        sys.stdout.write('\r---- {} of {} Edges ----'.format(iteration, len(mentions) + 1))
+        sys.stdout.write('\r---- {} of {} Edges added ----'.format(iteration, len(mentions) + 1))
         if val != 0:
             for v in val:
                 G.add_edge(key, v)
