@@ -14,7 +14,5 @@ We collected the data over the Twitter-API and perform several analysis to find 
 - streaming: this folder is for the twitter data streaming, but not used in our project yet. In future works could this be included.
 - transform: In this folder are all python files used for the transformation of the data
 
-Test Commit
-
 
 
