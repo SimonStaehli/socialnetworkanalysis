@@ -16,4 +16,3 @@ We collected the data over the Twitter-API and perform several analysis to find 
 
 
 
-
